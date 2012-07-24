@@ -38,8 +38,9 @@ throttler ! Queue("5")
 
 Status
 ------
-Take a look at the [API][3] to see what is provided.	
-Currently, the project only provides a timer-based implementation for a throttler, see [TimerBasedThrottler][2]. As [described][2] in the class documentation, this throttler only provides weak guarantees.
+Take a look at the [API][3] to see what is provided.
+
+Currently, the project only provides a timer-based implementation of a throttler, see [TimerBasedThrottler][2]. As [described][2] in the class documentation, this throttler only provides weak guarantees.
 
 There are plans to add an implementation of a history-based throttler that provides stronger guarantees, like for example the [one][4] by Charles Cordingley.
 
