@@ -38,7 +38,7 @@ throttler ! Queue("5")
 
 Status
 ------
-Take a look at the [API][3] to see what is provided. You will find most of the funcitonality "described" in the [tests][6]. To run them, check out the code and do a `sbt test`.
+Take a look at the [API][3] to see what is provided. Most of the functionality is documented [here][7] and "described" in the [tests][6]. To run them, check out the code and do a `sbt test`.
 
 Currently, the project only provides a timer-based implementation of a throttler, see [TimerBasedThrottler][2]. As [described][2] in the class documentation, this throttler only provides weak guarantees.
 
@@ -54,3 +54,4 @@ All of the code in this project is available under the [Creative Commons – Att
   [4]: http://www.cordinc.com/blog/2010/04/java-multichannel-asynchronous.html
   [5]: http://creativecommons.org/licenses/by/3.0/
   [6]: https://github.com/hbf/akka-throttler/blob/master/src/test/scala/akka/util/throttle/TimerBasedThrottlerSpec.scala
+  [7]: http://hbf.github.com/akka-throttler/doc/api/#akka.util.throttle.Throttler
