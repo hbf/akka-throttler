@@ -1,6 +1,6 @@
 *.class
 *.log
-.DSStore
+.DS_Store
 
 # sbt specific
 dist/*
