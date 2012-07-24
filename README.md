@@ -4,7 +4,7 @@ A throttler for Akka 2.0
 What is this about?
 --------------------
 
-Suppose your application needs to make calls to an external webservice and this webservice has a restrictions in place: you may only make _X_ calls in _Y_ seconds it. If you don't stay under this limit, the service may stop, or you may have to pay (more). You can use a throttle to ensure that the calls you make do not cross the threshold rate.
+A typical usage scenario for a throttler is this: your application needs to make calls to an external webservice and this webservice has a restriction in place. You may only make _X_ calls in _Y_ seconds. You get blocked or need to pay gold if you don't stay under this limit. With a throttler, you can ensure that the calls you make do not cross the threshold rate.
 
 You create a throttler by specifying a _rate_, for example `3 msgsPer (1 second)` and a _target actor_. You can then send the throttler messages at any rate, and the throttler will send the messages to the target at a rate at most 3 msg/s.
 
