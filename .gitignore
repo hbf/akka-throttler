@@ -1,5 +1,6 @@
 *.class
 *.log
+.DSStore
 
 # sbt specific
 dist/*
