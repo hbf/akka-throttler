@@ -28,7 +28,7 @@
       </span>
       </h4>
       
-          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>A <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a> that uses a timer to control the message delivery rate.</p><p>The default rate is 4 messages per second.</p><h5> Example </h5><p>For example, if you set a rate like &quot;3 messages in 1 second&quot;, the throttler
+          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>A <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a> that uses a timer to control the message delivery rate.</p><h4>Example</h4><p>For example, if you set a rate like &quot;3 messages in 1 second&quot;, the throttler
 will send the first three messages immediately to the target actor but will need to impose a delay before
 sending out further messages:</p><pre>
   // A simple actor that prints whatever it receives
@@ -37,11 +37,10 @@ sending out further messages:</p><pre>
       case x =&gt; println(x)
     }
   }))
-  // The throttler for this example
-  val throttler = system.actorOf(Props[TimerBasedThrottler])
-  // Set the target and rate
+  // The throttler for this example, setting the rate
+  val throttler = system.actorOf(Props(new TimerBasedThrottler(3 msgsPer (1 second))))
+  // Set the target
   throttler ! SetTarget(Some(printer))
-  throttler ! SetRate(3 msgsPer (1 second))
   // These three messages will be sent to the printer immediately
   throttler ! Queue(&quot;1&quot;)
   throttler ! Queue(&quot;2&quot;)
@@ -49,19 +48,19 @@ sending out further messages:</p><pre>
   // These two will wait at least until 1 second has passed
   throttler ! Queue(&quot;4&quot;)
   throttler ! Queue(&quot;5&quot;)
-</pre><h5> Implementation notes </h5><p>This throttler implementation installs a timer that repeats every <code>rate.durationInMillis</code> and enables <code>rate.numberOfCalls</code>
+</pre><h4>Implementation notes</h4><p>This throttler implementation installs a timer that repeats every <code>rate.durationInMillis</code> and enables <code>rate.numberOfCalls</code>
 additional calls to take place. This throttler uses very few system resources, provided the rate's duration is not too
 fine-grained (which would cause a lot of timer invocations); for example, it does not store the calling history
 as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only provides <i>weak guarantees</i> on the rate:</p><ul><li>Only <i>delivery</i> times are taken into account: if, for example, the throttler is used to throttle
-  requests to an external web service then only the start times of the web requests are considered.
-  If a web request takes very long on the server then more than <code>rate.numberOfCalls</code>-many requests
-  may be observed on the server in an interval of duration <code>rate.durationInMillis()</code>.</li><li>There may be intervals of duration <code>rate.durationInMillis()</code> that contain more than <code>rate.numberOfCalls</code>
-  message deliveries: a <a name="akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only makes guarantees for the intervals
-  of its <i>own</i> timer, namely that no more than <code>rate.numberOfCalls</code>-many messages are delivered within such intervals. Other intervals on the
-  timeline may contain more calls.</li></ul><p>For some applications, these guarantees may not be sufficient.</p><h5> Known issues </h5><ul><li>If you change the rate using <code>SetRate(rate)</code>, the actual rate may in fact be higher for the
- overlapping period (i.e., <code>durationInMillis()</code>) of the new and old rate. Therefore,
- changing the rate frequently is not recommended with the current implementation.</li><li>The queue of messages to be delivered is not persisted in any way; actor or system failure will
- cause the queued messages to be lost.
+   requests to an external web service then only the start times of the web requests are considered.
+   If a web request takes very long on the server then more than <code>rate.numberOfCalls</code>-many requests
+   may be observed on the server in an interval of duration <code>rate.durationInMillis()</code>.</li><li>There may be intervals of duration <code>rate.durationInMillis()</code> that contain more than <code>rate.numberOfCalls</code>
+   message deliveries: a <a name="akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only makes guarantees for the intervals
+   of its <i>own</i> timer, namely that no more than <code>rate.numberOfCalls</code>-many messages are delivered within such intervals. Other intervals on the
+   timeline may contain more calls.</li></ul><p>For some applications, these guarantees may not be sufficient.</p><h4>Known issues</h4><ul><li>If you change the rate using <code>SetRate(rate)</code>, the actual rate may in fact be higher for the
+   overlapping period (i.e., <code>durationInMillis()</code>) of the new and old rate. Therefore,
+   changing the rate frequently is not recommended with the current implementation.</li><li>The queue of messages to be delivered is not persisted in any way; actor or system failure will
+   cause the queued messages to be lost.
 </li></ul></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>
 </p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
@@ -98,7 +97,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">TimerBasedThrottler</span>
         
-        <span class="params">()</span>
+        <span class="params">(<span name="rate">rate: <a name="akka.util.throttle.Rate" class="extype" href="Rate.html">Rate</a></span>)</span>
       </span>
       </h4>
       
@@ -293,17 +292,6 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] implicit </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.TimerBasedThrottler#defaultRate" data-isabs="false">
-      <a id="defaultRate:Rate"></a>
-      <h4 class="signature">
-      <span class="kind">val</span>
-      <span class="symbol"> 
-        <span class="name">defaultRate</span>
-        
-        <span class="result">: <a name="akka.util.throttle.Rate" class="extype" href="Rate.html">Rate</a></span>
-      </span>
-      </h4>
-      
     </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
       <a id="eq(AnyRef):Boolean"></a>
       <h4 class="signature">

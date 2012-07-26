@@ -30,7 +30,10 @@
       
           <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Queue a message to a <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>.</p><p>The message <code>msg</code> will eventually be sent to the throttler's target. This may happen immediately
 or after a delay that may be necessary in order to not deliver messages at a rate higher than the
-throttler's current rate.</p></div><dl class="paramcmts block"><dt class="param">msg</dt><dd class="cmt"><p>the message to eventually be sent to the throttler's target; the target will see the original
+throttler's current rate.</p><p>Should the throttler not be able to send the message, it will throw a
+<a name="akka.util.throttle.FailedToSendException" class="extype" href="FailedToSendException.html">FailedToSendException</a> so that the throttler's supervisor
+can take appropriate action.
+</p></div><dl class="paramcmts block"><dt class="param">msg</dt><dd class="cmt"><p>the message to eventually be sent to the throttler's target; the target will see the original
    sender (and not the throttler) as the messages sender
 </p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
