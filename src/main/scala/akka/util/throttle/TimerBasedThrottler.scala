@@ -7,7 +7,7 @@ import akka.actor.{ ActorRef, Actor, LoggingFSM }
 import akka.util.Duration
 import akka.util.duration._
 
-private[throttle] case class Tick()
+private[throttle] case object Tick
 
 // States of the FSM
 private[throttle] sealed trait State
@@ -28,9 +28,7 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
 /**
  * A [[akka.util.throttle.Throttler]] that uses a timer to control the message delivery rate.
  *
- * The default rate is 4 messages per second.
- *
- * <h3>Example</h3>
+ * ==Example==
  * For example, if you set a rate like "3 messages in 1 second", the throttler
  * will send the first three messages immediately to the target actor but will need to impose a delay before
  * sending out further messages:
@@ -41,11 +39,10 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
  *       case x => println(x)
  *     }
  *   }))
- *   // The throttler for this example
- *   val throttler = system.actorOf(Props[TimerBasedThrottler])
- *   // Set the target and rate
+ *   // The throttler for this example, setting the rate
+ *   val throttler = system.actorOf(Props(new TimerBasedThrottler(3 msgsPer (1 second))))
+ *   // Set the target
  *   throttler ! SetTarget(Some(printer))
- *   throttler ! SetRate(3 msgsPer (1 second))
  *   // These three messages will be sent to the printer immediately
  *   throttler ! Queue("1")
  *   throttler ! Queue("2")
@@ -55,53 +52,50 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
  *   throttler ! Queue("5")
  * }}}
  *
- * <h3>Implementation notes</h3>
+ * ==Implementation notes==
  * This throttler implementation installs a timer that repeats every `rate.durationInMillis` and enables `rate.numberOfCalls`
  * additional calls to take place. This throttler uses very few system resources, provided the rate's duration is not too
  * fine-grained (which would cause a lot of timer invocations); for example, it does not store the calling history
  * as other throttlers may need to do.
- * <p>
+ *
  * However, a [[akka.util.throttle.TimerBasedThrottler]] only provides ''weak guarantees'' on the rate:
- * <ul>
- *   <li>Only ''delivery'' times are taken into account: if, for example, the throttler is used to throttle
- *   requests to an external web service then only the start times of the web requests are considered.
- *   If a web request takes very long on the server then more than `rate.numberOfCalls`-many requests
- *   may be observed on the server in an interval of duration `rate.durationInMillis()`.</li>
- *   <li>There may be intervals of duration `rate.durationInMillis()` that contain more than `rate.numberOfCalls`
- *   message deliveries: a [[akka.util.throttle.TimerBasedThrottler]] only makes guarantees for the intervals
- *   of its ''own'' timer, namely that no more than `rate.numberOfCalls`-many messages are delivered within such intervals. Other intervals on the
- *   timeline may contain more calls.</li>
- * </ul>
+ *
+ *  - Only ''delivery'' times are taken into account: if, for example, the throttler is used to throttle
+ *    requests to an external web service then only the start times of the web requests are considered.
+ *    If a web request takes very long on the server then more than `rate.numberOfCalls`-many requests
+ *    may be observed on the server in an interval of duration `rate.durationInMillis()`.
+ *  - There may be intervals of duration `rate.durationInMillis()` that contain more than `rate.numberOfCalls`
+ *    message deliveries: a [[akka.util.throttle.TimerBasedThrottler]] only makes guarantees for the intervals
+ *    of its ''own'' timer, namely that no more than `rate.numberOfCalls`-many messages are delivered within such intervals. Other intervals on the
+ *    timeline may contain more calls.
+ *
  * For some applications, these guarantees may not be sufficient.
  *
- * <h3>Known issues</h3>
- * <ul>
- *  <li>If you change the rate using `SetRate(rate)`, the actual rate may in fact be higher for the
- *  overlapping period (i.e., `durationInMillis()`) of the new and old rate. Therefore,
- *  changing the rate frequently is not recommended with the current implementation.</li>
- *  <li>The queue of messages to be delivered is not persisted in any way; actor or system failure will
- *  cause the queued messages to be lost.</li>
- * </ul>
+ * ==Known issues==
+ *
+ *  - If you change the rate using `SetRate(rate)`, the actual rate may in fact be higher for the
+ *    overlapping period (i.e., `durationInMillis()`) of the new and old rate. Therefore,
+ *    changing the rate frequently is not recommended with the current implementation.
+ *  - The queue of messages to be delivered is not persisted in any way; actor or system failure will
+ *    cause the queued messages to be lost.
+ *
  * @see [[akka.util.throttle.Throttler]]
  */
-class TimerBasedThrottler extends Actor with Throttler with LoggingFSM[State, Data] {
-  val defaultRate = 4 msgsPerSecond
+class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingFSM[State, Data] {
 
-  startWith(Idle, Data(None, defaultRate, defaultRate.numberOfCalls, Q[Message]()))
+  startWith(Idle, Data(None, rate, rate.numberOfCalls, Q[Message]()))
 
   // Idle: no messages, or target not set
   when(Idle) {
     // Set the rate
-    case Event(SetRate(rate), d @ Data(_, _, _, _)) =>
+    case Event(SetRate(rate), d) =>
       stay using d.copy(rate = rate, callsLeftInThisPeriod = rate.numberOfCalls)
 
     // Set the target
-    case Event(SetTarget(None), d @ Data(_, _, _, _)) =>
-      stay using d.copy(target = None)
-    case Event(SetTarget(t @ Some(_)), d @ Data(_, _, _, Seq())) =>
-      stay using d.copy(target = t)
-    case Event(SetTarget(t @ Some(_)), d @ Data(_, _, _, _)) => // non-empty queue
+    case Event(SetTarget(t @ Some(_)), d) if !d.queue.isEmpty =>
       goto(Active) using deliverMessages(d.copy(target = t))
+    case Event(SetTarget(t), d) =>
+      stay using d.copy(target = t)
 
     // Queuing
     case Event(Queue(msg), d @ Data(None, _, _, queue)) =>
@@ -113,18 +107,18 @@ class TimerBasedThrottler extends Actor with Throttler with LoggingFSM[State, Da
 
   when(Active) {
     // Set the rate
-    case Event(SetRate(rate), d @ Data(_, _, _, _)) =>
+    case Event(SetRate(rate), d) =>
       // Note: this should be improved (see "Known issues" in class comments)
       stopTimer()
       startTimer(rate)
       stay using d.copy(rate = rate, callsLeftInThisPeriod = rate.numberOfCalls)
 
     // Set the target (when the new target is None)
-    case Event(SetTarget(None), d @ Data(_, _, _, _)) =>
+    case Event(SetTarget(None), d) =>
       goto(Idle) using d.copy(target = None)
 
     // Set the target (when the new target is not None)
-    case Event(SetTarget(t @ Some(_)), d @ Data(_, _, _, _)) =>
+    case Event(SetTarget(t @ Some(_)), d) =>
       stay using d.copy(target = t)
 
     // Queue a message (when we cannot send messages in the current period anymore)
@@ -161,8 +155,18 @@ class TimerBasedThrottler extends Actor with Throttler with LoggingFSM[State, Da
     val queue = data.queue
     val nrOfMsgToSend = scala.math.min(queue.length, data.callsLeftInThisPeriod)
 
-    // TODO/question: need for error handling?
-    queue.take(nrOfMsgToSend).foreach((x: Message) => data.target.get.tell(x.message, x.sender))
+    queue.take(nrOfMsgToSend).foreach((x: Message) => {
+      /*
+       *  In case message deliver fails, we throw our own exception so that the supervisor
+       *  can deal with it appropriately.
+       */
+      try {
+        data.target.get.tell(x.message, x.sender)
+      } catch {
+        case ex => throw new FailedToSendException("Could not send msg " + x.message +
+          " to target " + data.target.get + " with sender " + x.sender + ".", ex)
+      }
+    })
 
     data.copy(queue = queue.drop(nrOfMsgToSend), callsLeftInThisPeriod = data.callsLeftInThisPeriod - nrOfMsgToSend)
   }

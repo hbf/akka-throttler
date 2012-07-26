@@ -42,11 +42,10 @@ class TimerBasedThrottlerSpec(_system: ActorSystem) extends TestKit(_system) wit
           case x => println(x)
         }
       }))
-      // The throttler for this example
-      val throttler = system.actorOf(Props[TimerBasedThrottler])
-      // Set the target and rate
+      // The throttler for this example, setting the rate
+      val throttler = system.actorOf(Props(new TimerBasedThrottler(3 msgsPer (1 second))))
+      // Set the target 
       throttler ! SetTarget(Some(printer))
-      throttler ! SetRate(3 msgsPer (1 second))
       // These three messages will be sent to the echoer immediately
       throttler ! Queue("1")
       throttler ! Queue("2")
@@ -58,7 +57,7 @@ class TimerBasedThrottlerSpec(_system: ActorSystem) extends TestKit(_system) wit
 
     "keep messages until a target is set" in {
       val echo = system.actorOf(Props[TimerBasedThrottlerSpec.EchoActor])
-      val throttler = system.actorOf(Props[TimerBasedThrottler])
+      val throttler = system.actorOf(Props(new TimerBasedThrottler(3 msgsPer (1 second))))
       throttler ! Queue("1")
       throttler ! Queue("2")
       throttler ! Queue("3")
@@ -79,8 +78,7 @@ class TimerBasedThrottlerSpec(_system: ActorSystem) extends TestKit(_system) wit
 
     "respect the rate (3 msg/s)" in {
       val echo = system.actorOf(Props[TimerBasedThrottlerSpec.EchoActor])
-      val throttler = system.actorOf(Props[TimerBasedThrottler])
-      throttler ! SetRate(3 msgsPer (1 second))
+      val throttler = system.actorOf(Props(new TimerBasedThrottler(3 msgsPer (1 second))))
       throttler ! SetTarget(Some(echo))
       throttler ! Queue("1")
       throttler ! Queue("2")
@@ -108,7 +106,7 @@ class TimerBasedThrottlerSpec(_system: ActorSystem) extends TestKit(_system) wit
 
     "respect the rate (4 msg/s)" in {
       val echo = system.actorOf(Props[TimerBasedThrottlerSpec.EchoActor])
-      val throttler = system.actorOf(Props[TimerBasedThrottler])
+      val throttler = system.actorOf(Props(new TimerBasedThrottler(4 msgsPer (1 second))))
       throttler ! SetTarget(Some(echo))
       throttler ! Queue("1")
       throttler ! Queue("2")

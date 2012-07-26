@@ -3,6 +3,8 @@ package akka.util.throttle
 import java.util.concurrent.TimeUnit
 import akka.util.Duration
 import akka.actor.ActorRef
+import akka.actor.Actor
+import akka.AkkaException
 
 /**
  * A rate used for throttling.
@@ -55,7 +57,14 @@ case class Rate(val numberOfCalls: Int, val duration: Duration) {
  *
  * @see [[akka.util.throttle.TimerBasedThrottler]]
  */
-trait Throttler
+trait Throttler { self: Actor => }
+
+/**
+ * Exception thrown by a [[akka.util.throttle.Throttler]] in case message delivery to the target
+ * fails for a message `msg` queued to the throttler via `Queue(msg)`. In this way, the throttler's
+ * supervisor can take appropriate action.
+ */
+class FailedToSendException(message: String, cause: Throwable) extends AkkaException(message, cause)
 
 /**
  * Set the target of a [[akka.util.throttle.Throttler]].
@@ -88,6 +97,11 @@ case class SetRate(rate: Rate)
  * The message `msg` will eventually be sent to the throttler's target. This may happen immediately
  * or after a delay that may be necessary in order to not deliver messages at a rate higher than the
  * throttler's current rate.
+ *
+ * Should the throttler not be able to send the message, it will throw a
+ * [[akka.util.throttle.FailedToSendException]] so that the throttler's supervisor
+ * can take appropriate action.
+ *
  * @param msg the message to eventually be sent to the throttler's target; the target will see the original
  *    sender (and not the throttler) as the messages sender
  */
