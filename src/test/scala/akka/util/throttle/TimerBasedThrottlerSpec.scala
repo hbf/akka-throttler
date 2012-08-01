@@ -35,7 +35,7 @@ class TimerBasedThrottlerSpec(_system: ActorSystem) extends TestKit(_system) wit
 
   "A throttler" must {
 
-    "must pass the class documentation example prgoram" in {
+    "must pass the ScalaDoc class documentation example prgoram" in {
       // A simple actor that prints whatever it receives
       val printer = system.actorOf(Props(new Actor {
         def receive = {

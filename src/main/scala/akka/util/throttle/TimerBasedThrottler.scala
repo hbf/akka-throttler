@@ -6,6 +6,7 @@ import scala.collection.immutable.{ Queue => Q }
 import akka.actor.{ ActorRef, Actor, LoggingFSM }
 import akka.util.Duration
 import akka.util.duration._
+import akka.util.NonFatal
 
 private[throttle] case object Tick
 
@@ -163,8 +164,7 @@ class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingF
       try {
         data.target.get.tell(x.message, x.sender)
       } catch {
-        case ex => throw new FailedToSendException("Could not send msg " + x.message +
-          " to target " + data.target.get + " with sender " + x.sender + ".", ex)
+        case NonFatal(ex) => throw new FailedToSendException("tell() failed.", ex)
       }
     })
 
