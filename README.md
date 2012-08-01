@@ -19,12 +19,11 @@ val printer = system.actorOf(Props(new Actor {
   }
 }))
 
-// The throttler for this example
-val throttler = system.actorOf(Props[TimerBasedThrottler])
+// The throttler for this example, setting the rate
+val throttler = system.actorOf(Props(new TimerBasedThrottler(3 msgsPer (1 second))))
 
-// Set the target and rate
+// Set the target
 throttler ! SetTarget(Some(printer))
-throttler ! SetRate(3 msgsPer (1 second))
 
 // These three messages will be sent to the printer immediately
 throttler ! Queue("1")
@@ -34,6 +33,7 @@ throttler ! Queue("3")
 // These two will wait at least until 1 second has passed
 throttler ! Queue("4")
 throttler ! Queue("5")
+
 ```
 
 Status
