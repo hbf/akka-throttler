@@ -1,4 +1,4 @@
-package akka.util.throttle
+package com.dreizak.akka.util.throttle
 
 import akka.actor.ActorSystem
 import akka.actor.Actor
@@ -12,7 +12,7 @@ import org.scalatest.BeforeAndAfterAll
 import akka.testkit.ImplicitSender
 import akka.util.Duration
 import akka.util.duration._
-import akka.util.throttle.Throttling._
+import com.dreizak.akka.util.throttle.Throttling._
 import com.typesafe.config.ConfigFactory
 
 object TimerBasedThrottlerSpec {

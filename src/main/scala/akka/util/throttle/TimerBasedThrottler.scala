@@ -1,4 +1,4 @@
-package akka.util.throttle
+package com.dreizak.akka.util.throttle
 
 import Throttling._
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -27,7 +27,7 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
                                          queue: Q[Message])
 
 /**
- * A [[akka.util.throttle.Throttler]] that uses a timer to control the message delivery rate.
+ * A [[com.dreizak.akka.util.throttle.Throttler]] that uses a timer to control the message delivery rate.
  *
  * ==Example==
  * For example, if you set a rate like "3 messages in 1 second", the throttler
@@ -59,14 +59,14 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
  * fine-grained (which would cause a lot of timer invocations); for example, it does not store the calling history
  * as other throttlers may need to do.
  *
- * However, a [[akka.util.throttle.TimerBasedThrottler]] only provides ''weak guarantees'' on the rate:
+ * However, a [[com.dreizak.akka.util.throttle.TimerBasedThrottler]] only provides ''weak guarantees'' on the rate:
  *
  *  - Only ''delivery'' times are taken into account: if, for example, the throttler is used to throttle
  *    requests to an external web service then only the start times of the web requests are considered.
  *    If a web request takes very long on the server then more than `rate.numberOfCalls`-many requests
  *    may be observed on the server in an interval of duration `rate.durationInMillis()`.
  *  - There may be intervals of duration `rate.durationInMillis()` that contain more than `rate.numberOfCalls`
- *    message deliveries: a [[akka.util.throttle.TimerBasedThrottler]] only makes guarantees for the intervals
+ *    message deliveries: a [[com.dreizak.akka.util.throttle.TimerBasedThrottler]] only makes guarantees for the intervals
  *    of its ''own'' timer, namely that no more than `rate.numberOfCalls`-many messages are delivered within such intervals. Other intervals on the
  *    timeline may contain more calls.
  *
@@ -80,7 +80,7 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
  *  - The queue of messages to be delivered is not persisted in any way; actor or system failure will
  *    cause the queued messages to be lost.
  *
- * @see [[akka.util.throttle.Throttler]]
+ * @see [[com.dreizak.akka.util.throttle.Throttler]]
  */
 class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingFSM[State, Data] {
 
