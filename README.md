@@ -87,10 +87,10 @@ License
 All of the code in this project is available under the [Creative Commons – Attribution 3.0 Unported (CC BY 3.0)][5] license.
 
   [1]: http://akka.io/
-  [2]: http://hbf.github.com/akka-throttler/doc/api/#akka.util.throttle.TimerBasedThrottler
+  [2]: http://hbf.github.com/akka-throttler/doc/api/#com.dreizak.akka.util.throttle.TimerBasedThrottler
   [3]: http://hbf.github.com/akka-throttler/doc/api/
   [4]: http://www.cordinc.com/blog/2010/04/java-multichannel-asynchronous.html
   [5]: http://creativecommons.org/licenses/by/3.0/
   [6]: https://github.com/hbf/akka-throttler/blob/master/src/test/scala/akka/util/throttle/TimerBasedThrottlerSpec.scala
-  [7]: http://hbf.github.com/akka-throttler/doc/api/#akka.util.throttle.Throttler
+  [7]: http://hbf.github.com/akka-throttler/doc/api/#com.dreizak.akka.util.throttle.Throttler
   [8]: http://hbf.github.com/akka-throttler/maven-repo
