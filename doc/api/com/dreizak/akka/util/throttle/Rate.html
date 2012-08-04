@@ -2,20 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>akka.util.throttle.Rate</title>
+          <title>com.dreizak.akka.util.throttle.Rate</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
-      <script type="text/javascript" src="../../../lib/jquery.js"></script>
-      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../../../lib/template.css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
     
         </head>
         <body class="type">
       <div id="definition">
-        <img src="../../../lib/class_big.png" />
-        <p id="owner"><a name="akka" class="extype" href="../../package.html">akka</a>.<a name="akka.util" class="extype" href="../package.html">util</a>.<a name="akka.util.throttle" class="extype" href="package.html">throttle</a></p>
+        <img src="../../../../../lib/class_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../../../package.html">com</a>.<a name="com.dreizak" class="extype" href="../../../package.html">dreizak</a>.<a name="com.dreizak.akka" class="extype" href="../../package.html">akka</a>.<a name="com.dreizak.akka.util" class="extype" href="../package.html">util</a>.<a name="com.dreizak.akka.util.throttle" class="extype" href="package.html">throttle</a></p>
         <h1>Rate</h1>
       </div>
 
@@ -30,8 +30,8 @@
       
           <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>A rate used for throttling.</p><p>There are some shorthands available to construct rates:</p><pre>
  import java.util.concurrent.TimeUnit._
- import akka.util.throttle.Rate
- import akka.util.throttle.Throttling._
+ import com.dreizak.akka.util.throttle.Rate
+ import com.dreizak.akka.util.throttle.Throttling._
  import akka.util.Duration
 
  val rate1 = 1 msgsPer (1, SECONDS)
@@ -39,7 +39,7 @@
  val rate3 = 1 msgsPerSecond
  val rate4 = 1 msgsPerMinute
  val rate5 = 1 msgsPerHour
-</pre></div><dl class="paramcmts block"><dt class="param">numberOfCalls</dt><dd class="cmt"><p>the number of calls that may take place in a period</p></dd><dt class="param">duration</dt><dd class="cmt"><p>the length of the period</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>
+</pre></div><dl class="paramcmts block"><dt class="param">numberOfCalls</dt><dd class="cmt"><p>the number of calls that may take place in a period</p></dd><dt class="param">duration</dt><dd class="cmt"><p>the length of the period</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a name="com.dreizak.akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>
 </p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span name="scala.Serializable" class="extype">Serializable</span>, <span name="java.io.Serializable" class="extype">Serializable</span>, <span name="scala.Product" class="extype">Product</span>, <span name="scala.Equals" class="extype">Equals</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
@@ -58,7 +58,7 @@
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall out"><span>Hide All</span></li>
                 <li class="showall in"><span>Show all</span></li></ol>
-                <ol id="linearization"><li name="akka.util.throttle.Rate" class="in"><span>Rate</span></li><li name="scala.Serializable" class="in"><span>Serializable</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="scala.Product" class="in"><span>Product</span></li><li name="scala.Equals" class="in"><span>Equals</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+                <ol id="linearization"><li name="com.dreizak.akka.util.throttle.Rate" class="in"><span>Rate</span></li><li name="scala.Serializable" class="in"><span>Serializable</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="scala.Product" class="in"><span>Product</span></li><li name="scala.Equals" class="in"><span>Equals</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -68,7 +68,7 @@
 
         <div class="members" id="constructors">
               <h3>Instance Constructors</h3>
-              <ol><li visbl="pub" name="akka.util.throttle.Rate#this" data-isabs="false">
+              <ol><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#this" data-isabs="false">
       <a id="this:Rate"></a>
       <h4 class="signature">
       <span class="kind">new</span>
@@ -154,7 +154,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#canEqual" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#canEqual" data-isabs="false">
       <a id="canEqual(Any):Boolean"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -164,7 +164,7 @@
         <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → Equals</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → Equals</dd></dl></div>
     </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
       <a id="clone():AnyRef"></a>
       <h4 class="signature">
@@ -175,11 +175,11 @@
         <span class="params">()</span><span class="result">: AnyRef</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#duration" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#duration" data-isabs="false">
       <a id="duration:Duration"></a>
       <h4 class="signature">
       <span class="kind">val</span>
@@ -190,7 +190,7 @@
       </span>
       </h4>
       <p class="shortcomment cmt">the length of the period</p>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#durationInMillis" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#durationInMillis" data-isabs="false">
       <a id="durationInMillis():Long"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -212,7 +212,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#equals" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#equals" data-isabs="false">
       <a id="equals(Any):Boolean"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -222,7 +222,7 @@
         <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → Equals → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → Equals → AnyRef → Any</dd></dl></div>
     </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
       <a id="finalize():Unit"></a>
       <h4 class="signature">
@@ -233,7 +233,7 @@
         <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -248,7 +248,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#hashCode" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#hashCode" data-isabs="false">
       <a id="hashCode():Int"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -258,7 +258,7 @@
         <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → AnyRef → Any</dd></dl></div>
     </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <h4 class="signature">
@@ -303,7 +303,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#numberOfCalls" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#numberOfCalls" data-isabs="false">
       <a id="numberOfCalls:Int"></a>
       <h4 class="signature">
       <span class="kind">val</span>
@@ -314,7 +314,7 @@
       </span>
       </h4>
       <p class="shortcomment cmt">the number of calls that may take place in a period</p>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#productArity" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#productArity" data-isabs="false">
       <a id="productArity:Int"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -324,8 +324,8 @@
         <span class="result">: <span name="scala.Int" class="extype">Int</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → Product</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#productElement" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → Product</dd></dl></div>
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#productElement" data-isabs="false">
       <a id="productElement(Int):Any"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -335,7 +335,7 @@
         <span class="params">(<span name="arg0">arg0: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Any" class="extype">Any</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → Product</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → Product</dd></dl></div>
     </li><li visbl="pub" name="scala.Product#productIterator" data-isabs="false">
       <a id="productIterator:Iterator[Any]"></a>
       <h4 class="signature">
@@ -347,7 +347,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Product</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#productPrefix" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#productPrefix" data-isabs="false">
       <a id="productPrefix:String"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -357,7 +357,7 @@
         <span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → Product</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → Product</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
       <a id="synchronized[T0](⇒ T0):T0"></a>
       <h4 class="signature">
@@ -369,7 +369,7 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="pub" name="akka.util.throttle.Rate#toString" data-isabs="false">
+    </li><li visbl="pub" name="com.dreizak.akka.util.throttle.Rate#toString" data-isabs="false">
       <a id="toString():String"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -379,7 +379,7 @@
         <span class="params">()</span><span class="result">: String</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="akka.util.throttle.Rate" class="extype" href="">Rate</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="">Rate</a> → AnyRef → Any</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
       <a id="wait():Unit"></a>
       <h4 class="signature">

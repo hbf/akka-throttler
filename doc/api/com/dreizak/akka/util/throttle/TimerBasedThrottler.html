@@ -2,20 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>akka.util.throttle.TimerBasedThrottler</title>
+          <title>com.dreizak.akka.util.throttle.TimerBasedThrottler</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
-      <script type="text/javascript" src="../../../lib/jquery.js"></script>
-      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../../../lib/template.css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
     
         </head>
         <body class="type">
       <div id="definition">
-        <img src="../../../lib/class_big.png" />
-        <p id="owner"><a name="akka" class="extype" href="../../package.html">akka</a>.<a name="akka.util" class="extype" href="../package.html">util</a>.<a name="akka.util.throttle" class="extype" href="package.html">throttle</a></p>
+        <img src="../../../../../lib/class_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../../../package.html">com</a>.<a name="com.dreizak" class="extype" href="../../../package.html">dreizak</a>.<a name="com.dreizak.akka" class="extype" href="../../package.html">akka</a>.<a name="com.dreizak.akka.util" class="extype" href="../package.html">util</a>.<a name="com.dreizak.akka.util.throttle" class="extype" href="package.html">throttle</a></p>
         <h1>TimerBasedThrottler</h1>
       </div>
 
@@ -24,11 +24,11 @@
       <span class="symbol"> 
         <span class="name">TimerBasedThrottler</span>
         
-        <span class="result"> extends <span name="akka.actor.Actor" class="extype">Actor</span> with <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a> with <span name="akka.actor.LoggingFSM" class="extype">LoggingFSM</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>]</span>
+        <span class="result"> extends <span name="akka.actor.Actor" class="extype">Actor</span> with <a name="com.dreizak.akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a> with <span name="akka.actor.LoggingFSM" class="extype">LoggingFSM</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>]</span>
       </span>
       </h4>
       
-          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>A <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a> that uses a timer to control the message delivery rate.</p><h4>Example</h4><p>For example, if you set a rate like &quot;3 messages in 1 second&quot;, the throttler
+          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>A <a name="com.dreizak.akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a> that uses a timer to control the message delivery rate.</p><h4>Example</h4><p>For example, if you set a rate like &quot;3 messages in 1 second&quot;, the throttler
 will send the first three messages immediately to the target actor but will need to impose a delay before
 sending out further messages:</p><pre>
   // A simple actor that prints whatever it receives
@@ -51,20 +51,20 @@ sending out further messages:</p><pre>
 </pre><h4>Implementation notes</h4><p>This throttler implementation installs a timer that repeats every <code>rate.durationInMillis</code> and enables <code>rate.numberOfCalls</code>
 additional calls to take place. This throttler uses very few system resources, provided the rate's duration is not too
 fine-grained (which would cause a lot of timer invocations); for example, it does not store the calling history
-as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only provides <i>weak guarantees</i> on the rate:</p><ul><li>Only <i>delivery</i> times are taken into account: if, for example, the throttler is used to throttle
+as other throttlers may need to do.</p><p>However, a <a name="com.dreizak.akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only provides <i>weak guarantees</i> on the rate:</p><ul><li>Only <i>delivery</i> times are taken into account: if, for example, the throttler is used to throttle
    requests to an external web service then only the start times of the web requests are considered.
    If a web request takes very long on the server then more than <code>rate.numberOfCalls</code>-many requests
    may be observed on the server in an interval of duration <code>rate.durationInMillis()</code>.</li><li>There may be intervals of duration <code>rate.durationInMillis()</code> that contain more than <code>rate.numberOfCalls</code>
-   message deliveries: a <a name="akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only makes guarantees for the intervals
+   message deliveries: a <a name="com.dreizak.akka.util.throttle.TimerBasedThrottler" class="extype" href="">TimerBasedThrottler</a> only makes guarantees for the intervals
    of its <i>own</i> timer, namely that no more than <code>rate.numberOfCalls</code>-many messages are delivered within such intervals. Other intervals on the
    timeline may contain more calls.</li></ul><p>For some applications, these guarantees may not be sufficient.</p><h4>Known issues</h4><ul><li>If you change the rate using <code>SetRate(rate)</code>, the actual rate may in fact be higher for the
    overlapping period (i.e., <code>durationInMillis()</code>) of the new and old rate. Therefore,
    changing the rate frequently is not recommended with the current implementation.</li><li>The queue of messages to be delivered is not persisted in any way; actor or system failure will
    cause the queued messages to be lost.
-</li></ul></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>
+</li></ul></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a name="com.dreizak.akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>
 </p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span name="akka.actor.LoggingFSM" class="extype">LoggingFSM</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>], <span name="akka.actor.FSM" class="extype">FSM</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>], <span name="akka.routing.Listeners" class="extype">Listeners</span>, <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>, <span name="akka.actor.Actor" class="extype">Actor</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><span name="akka.actor.LoggingFSM" class="extype">LoggingFSM</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>], <span name="akka.actor.FSM" class="extype">FSM</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>], <span name="akka.routing.Listeners" class="extype">Listeners</span>, <a name="com.dreizak.akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a>, <span name="akka.actor.Actor" class="extype">Actor</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div></div>
         
 
@@ -80,7 +80,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall out"><span>Hide All</span></li>
                 <li class="showall in"><span>Show all</span></li></ol>
-                <ol id="linearization"><li name="akka.util.throttle.TimerBasedThrottler" class="in"><span>TimerBasedThrottler</span></li><li name="akka.actor.LoggingFSM" class="in"><span>LoggingFSM</span></li><li name="akka.actor.FSM" class="in"><span>FSM</span></li><li name="akka.routing.Listeners" class="in"><span>Listeners</span></li><li name="akka.util.throttle.Throttler" class="in"><span>Throttler</span></li><li name="akka.actor.Actor" class="in"><span>Actor</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+                <ol id="linearization"><li name="com.dreizak.akka.util.throttle.TimerBasedThrottler" class="in"><span>TimerBasedThrottler</span></li><li name="akka.actor.LoggingFSM" class="in"><span>LoggingFSM</span></li><li name="akka.actor.FSM" class="in"><span>FSM</span></li><li name="akka.routing.Listeners" class="in"><span>Listeners</span></li><li name="com.dreizak.akka.util.throttle.Throttler" class="in"><span>Throttler</span></li><li name="akka.actor.Actor" class="in"><span>Actor</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -90,14 +90,14 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
 
         <div class="members" id="constructors">
               <h3>Instance Constructors</h3>
-              <ol><li visbl="pub" name="akka.util.throttle.TimerBasedThrottler#this" data-isabs="false">
+              <ol><li visbl="pub" name="com.dreizak.akka.util.throttle.TimerBasedThrottler#this" data-isabs="false">
       <a id="this:TimerBasedThrottler"></a>
       <h4 class="signature">
       <span class="kind">new</span>
       <span class="symbol"> 
         <span class="name">TimerBasedThrottler</span>
         
-        <span class="params">(<span name="rate">rate: <a name="akka.util.throttle.Rate" class="extype" href="Rate.html">Rate</a></span>)</span>
+        <span class="params">(<span name="rate">rate: <a name="com.dreizak.akka.util.throttle.Rate" class="extype" href="Rate.html">Rate</a></span>)</span>
       </span>
       </h4>
       
@@ -124,7 +124,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">State</span>
         
-        <span class="result"> = <span name="akka.actor.FSM.State" class="extype">State</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>]</span>
+        <span class="result"> = <span name="akka.actor.FSM.State" class="extype">State</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -157,7 +157,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">TransitionHandler</span>
         
-        <span class="result"> = <span name="scala.PartialFunction" class="extype">PartialFunction</span>[(<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.State" class="extype">State</span>), <span name="scala.Unit" class="extype">Unit</span>]</span>
+        <span class="result"> = <span name="scala.PartialFunction" class="extype">PartialFunction</span>[(<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>), <span name="scala.Unit" class="extype">Unit</span>]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -266,7 +266,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
         <span class="params">(<span name="name">name: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>LoggingFSM → FSM</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>LoggingFSM → FSM</dd></dl></div>
     </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
       <a id="clone():AnyRef"></a>
       <h4 class="signature">
@@ -277,7 +277,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
         <span class="params">()</span><span class="result">: AnyRef</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -291,7 +291,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
         <span class="result">: <span name="akka.actor.ActorContext" class="extype">ActorContext</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] implicit </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] implicit </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
       <a id="eq(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -324,7 +324,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
         <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -346,7 +346,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">getLog</span>
         
-        <span class="result">: IndexedSeq[<span name="akka.actor.FSM.LogEntry" class="extype">LogEntry</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>]]</span>
+        <span class="result">: IndexedSeq[<span name="akka.actor.FSM.LogEntry" class="extype">LogEntry</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>LoggingFSM</dd></dl></div>
@@ -368,7 +368,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">goto</span>
         
-        <span class="params">(<span name="nextStateName">nextStateName: <span name="akka.util.throttle.State" class="extype">State</span></span>)</span><span class="result">: State</span>
+        <span class="params">(<span name="nextStateName">nextStateName: <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span></span>)</span><span class="result">: State</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -467,10 +467,10 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">nextStateData</span>
         
-        <span class="result">: <span name="akka.util.throttle.Data" class="extype">Data</span></span>
+        <span class="result">: <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
       <a id="notify():Unit"></a>
       <h4 class="signature">
@@ -500,7 +500,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">onTermination</span>
         
-        <span class="params">(<span name="terminationHandler">terminationHandler: <span name="scala.PartialFunction" class="extype">PartialFunction</span>[<span name="akka.actor.FSM.StopEvent" class="extype">StopEvent</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>], <span name="scala.Unit" class="extype">Unit</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="terminationHandler">terminationHandler: <span name="scala.PartialFunction" class="extype">PartialFunction</span>[<span name="akka.actor.FSM.StopEvent" class="extype">StopEvent</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>], <span name="scala.Unit" class="extype">Unit</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -599,7 +599,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">setStateTimeout</span>
         
-        <span class="params">(<span name="state">state: <span name="akka.util.throttle.State" class="extype">State</span></span>, <span name="timeout">timeout: Timeout</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="state">state: <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span></span>, <span name="timeout">timeout: Timeout</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -613,7 +613,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
         <span class="params">(<span name="name">name: String</span>, <span name="msg">msg: <span name="scala.Any" class="extype">Any</span></span>, <span name="timeout">timeout: <span name="akka.util.Duration" class="extype">Duration</span></span>, <span name="repeat">repeat: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: State</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>LoggingFSM → FSM</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>LoggingFSM → FSM</dd></dl></div>
     </li><li visbl="prt" name="akka.actor.FSM#startWith" data-isabs="false">
       <a id="startWith(State,Data,Timeout):Unit"></a>
       <h4 class="signature">
@@ -621,7 +621,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">startWith</span>
         
-        <span class="params">(<span name="stateName">stateName: <span name="akka.util.throttle.State" class="extype">State</span></span>, <span name="stateData">stateData: <span name="akka.util.throttle.Data" class="extype">Data</span></span>, <span name="timeout">timeout: Timeout</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="stateName">stateName: <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span></span>, <span name="stateData">stateData: <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span></span>, <span name="timeout">timeout: Timeout</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -632,10 +632,10 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">stateData</span>
         
-        <span class="result">: <span name="akka.util.throttle.Data" class="extype">Data</span></span>
+        <span class="result">: <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
     </li><li visbl="prt" name="akka.actor.FSM#stateName" data-isabs="false">
       <a id="stateName:State"></a>
       <h4 class="signature">
@@ -643,10 +643,10 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">stateName</span>
         
-        <span class="result">: <span name="akka.util.throttle.State" class="extype">State</span></span>
+        <span class="result">: <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
     </li><li visbl="prt" name="akka.actor.FSM#stay" data-isabs="false">
       <a id="stay():State"></a>
       <h4 class="signature">
@@ -665,7 +665,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">stop</span>
         
-        <span class="params">(<span name="reason">reason: <span name="akka.actor.FSM.Reason" class="extype">Reason</span></span>, <span name="stateData">stateData: <span name="akka.util.throttle.Data" class="extype">Data</span></span>)</span><span class="result">: State</span>
+        <span class="params">(<span name="reason">reason: <span name="akka.actor.FSM.Reason" class="extype">Reason</span></span>, <span name="stateData">stateData: <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span></span>)</span><span class="result">: State</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -723,7 +723,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
         <span class="params">(<span name="name">name: String</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../package.html">akka</a>] final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="akka" class="extype" href="../../../../../akka/package.html">akka</a>] final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
       <a id="toString():String"></a>
       <h4 class="signature">
@@ -742,7 +742,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">total2pf</span>
         
-        <span class="params">(<span name="transitionHandler">transitionHandler: (<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.State" class="extype">State</span>) ⇒ <span name="scala.Unit" class="extype">Unit</span></span>)</span><span class="result">: <span name="scala.PartialFunction" class="extype">PartialFunction</span>[(<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.State" class="extype">State</span>), <span name="scala.Unit" class="extype">Unit</span>]</span>
+        <span class="params">(<span name="transitionHandler">transitionHandler: (<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>) ⇒ <span name="scala.Unit" class="extype">Unit</span></span>)</span><span class="result">: <span name="scala.PartialFunction" class="extype">PartialFunction</span>[(<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>), <span name="scala.Unit" class="extype">Unit</span>]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected implicit final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -806,7 +806,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name">when</span>
         
-        <span class="params">(<span name="stateName">stateName: <span name="akka.util.throttle.State" class="extype">State</span></span>, <span name="stateTimeout">stateTimeout: <span name="akka.util.Duration" class="extype">Duration</span></span>)</span><span class="params">(<span name="stateFunction">stateFunction: StateFunction</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="stateName">stateName: <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span></span>, <span name="stateTimeout">stateTimeout: <span name="akka.util.Duration" class="extype">Duration</span></span>)</span><span class="params">(<span name="stateFunction">stateFunction: StateFunction</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd></dl></div>
@@ -833,7 +833,7 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
       <span class="symbol"> 
         <span class="name deprecated">when</span>
         
-        <span class="params">(<span name="stateName">stateName: <span name="akka.util.throttle.State" class="extype">State</span></span>, <span name="stateTimeout">stateTimeout: Timeout</span>)</span><span class="params">(<span name="stateFunction">stateFunction: StateFunction</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="stateName">stateName: <span name="com.dreizak.akka.util.throttle.State" class="extype">State</span></span>, <span name="stateTimeout">stateTimeout: Timeout</span>)</span><span class="params">(<span name="stateFunction">stateFunction: StateFunction</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd>FSM</dd><dt>Annotations</dt><dd>
@@ -844,13 +844,13 @@ as other throttlers may need to do.</p><p>However, a <a name="akka.util.throttle
             </div>
 
         <div name="akka.actor.LoggingFSM" class="parent">
-              <h3>Inherited from <span name="akka.actor.LoggingFSM" class="extype">LoggingFSM</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>]</h3>
+              <h3>Inherited from <span name="akka.actor.LoggingFSM" class="extype">LoggingFSM</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>]</h3>
             </div><div name="akka.actor.FSM" class="parent">
-              <h3>Inherited from <span name="akka.actor.FSM" class="extype">FSM</span>[<span name="akka.util.throttle.State" class="extype">State</span>, <span name="akka.util.throttle.Data" class="extype">Data</span>]</h3>
+              <h3>Inherited from <span name="akka.actor.FSM" class="extype">FSM</span>[<span name="com.dreizak.akka.util.throttle.State" class="extype">State</span>, <span name="com.dreizak.akka.util.throttle.Data" class="extype">Data</span>]</h3>
             </div><div name="akka.routing.Listeners" class="parent">
               <h3>Inherited from <span name="akka.routing.Listeners" class="extype">Listeners</span></h3>
-            </div><div name="akka.util.throttle.Throttler" class="parent">
-              <h3>Inherited from <a name="akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a></h3>
+            </div><div name="com.dreizak.akka.util.throttle.Throttler" class="parent">
+              <h3>Inherited from <a name="com.dreizak.akka.util.throttle.Throttler" class="extype" href="Throttler.html">Throttler</a></h3>
             </div><div name="akka.actor.Actor" class="parent">
               <h3>Inherited from <span name="akka.actor.Actor" class="extype">Actor</span></h3>
             </div><div name="scala.AnyRef" class="parent">
