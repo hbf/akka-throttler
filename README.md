@@ -48,17 +48,20 @@ Download, Maven, SBT
 --------------------
 The packages are published to the Maven repository [http://hbf.github.com/akka-throttler/maven-repo][8]. You get the latest version using 
 
+```scala
     resolvers += "akka-throttler-github-repository" at "http://hbf.github.com/akka-throttler/maven-repo"
     
     libraryDependencies ++= Seq(
       // ...
       "akka-throttler" %% "com.dreizak.akka" % "1.0-SNAPSHOT" withSources
     )
+```
 
 The Maven repository contains builds for Scala 2.9.1 and 2.9.2. If you need something else, open an issue to let me know.
 
 For Maven, add the following to your `pom.xml`:
 
+```xml
 	<repositories>
 		<!-- ... -->
 		<repository>
@@ -74,6 +77,7 @@ For Maven, add the following to your `pom.xml`:
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+```
 
 Here, `SCALAVERSION` should be `2.9.1` or `2.9.2`.
 
