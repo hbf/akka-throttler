@@ -44,6 +44,40 @@ Currently, the project only provides a timer-based implementation of a throttler
 
 There are plans to add an implementation of a history-based throttler that provides stronger guarantees, like for example the [one][4] by Charles Cordingley.
 
+Download, Maven, SBT
+--------------------
+The packages are published to the Maven repository [http://hbf.github.com/akka-throttler/maven-repo][8]. You get the latest version using 
+
+    resolvers += "akka-throttler-github-repository" at "http://hbf.github.com/akka-throttler/maven-repo"
+    
+    libraryDependencies ++= Seq(
+      // ...
+      "akka-throttler" %% "com.dreizak.akka" % "1.0-SNAPSHOT" withSources
+    )
+
+The Maven repository contains builds for Scala 2.9.1 and 2.9.2. If you need something else, open an issue to let me know.
+
+For Maven, add the following to your `pom.xml`:
+
+	<repositories>
+		<!-- ... -->
+		<repository>
+			<id>akka-throttler-github-repository</id>
+			<url>http://hbf.github.com/akka-throttler/maven-repo</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<!-- ... -->
+		<dependency>
+			<groupId>akka-throttler</groupId>
+			<artifactId>com.dreizak.akka_SCALAVERSION</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+Here, `SCALAVERSION` should be `2.9.1` or `2.9.2`.
+
+
 License
 -------
 All of the code in this project is available under the [Creative Commons – Attribution 3.0 Unported (CC BY 3.0)][5] license.
@@ -55,3 +89,4 @@ All of the code in this project is available under the [Creative Commons – Att
   [5]: http://creativecommons.org/licenses/by/3.0/
   [6]: https://github.com/hbf/akka-throttler/blob/master/src/test/scala/akka/util/throttle/TimerBasedThrottlerSpec.scala
   [7]: http://hbf.github.com/akka-throttler/doc/api/#akka.util.throttle.Throttler
+  [8]: http://hbf.github.com/akka-throttler/maven-repo
