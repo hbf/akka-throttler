@@ -129,7 +129,7 @@ class TimerBasedThrottler(var rate: Rate) extends Actor with Throttler with Logg
       stay using d.copy(queue = queue.enqueue(Message(msg, context.sender)))
 
     // Queue a message (when we can send some more messages in the current period)
-    case Event(Queue(msg), d @ Data(_, callsLeftInThisPeriod, queue)) =>
+    case Event(Queue(msg), d @ Data(_, _, queue)) =>
       stay using deliverMessages(d.copy(queue = queue.enqueue(Message(msg, context.sender))))
 
     // Period ends and we have no more messages
