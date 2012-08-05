@@ -22,7 +22,6 @@ case class Message(message: Any, sender: ActorRef)
 
 // The data of the FSM
 private[throttle] sealed case class Data(target: Option[ActorRef],
-                                         rate: Rate,
                                          callsLeftInThisPeriod: Int,
                                          queue: Q[Message])
 
@@ -82,15 +81,17 @@ private[throttle] sealed case class Data(target: Option[ActorRef],
  *
  * @see [[com.dreizak.akka.util.throttle.Throttler]]
  */
-class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingFSM[State, Data] {
+class TimerBasedThrottler(var rate: Rate) extends Actor with Throttler with LoggingFSM[State, Data] {
 
-  startWith(Idle, Data(None, rate, rate.numberOfCalls, Q[Message]()))
+  startWith(Idle, Data(None, rate.numberOfCalls, Q[Message]()))
 
   // Idle: no messages, or target not set
   when(Idle) {
     // Set the rate
-    case Event(SetRate(rate), d) =>
-      stay using d.copy(rate = rate, callsLeftInThisPeriod = rate.numberOfCalls)
+    case Event(SetRate(rate), d) => {
+      this.rate = rate
+      stay using d.copy(callsLeftInThisPeriod = rate.numberOfCalls)
+    }
 
     // Set the target
     case Event(SetTarget(t @ Some(_)), d) if !d.queue.isEmpty =>
@@ -99,9 +100,9 @@ class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingF
       stay using d.copy(target = t)
 
     // Queuing
-    case Event(Queue(msg), d @ Data(None, _, _, queue)) =>
+    case Event(Queue(msg), d @ Data(None, _, queue)) =>
       stay using d.copy(queue = queue.enqueue(Message(msg, context.sender)))
-    case Event(Queue(msg), d @ Data(Some(_), _, _, Seq())) =>
+    case Event(Queue(msg), d @ Data(Some(_), _, Seq())) =>
       goto(Active) using deliverMessages(d.copy(queue = Q(Message(msg, context.sender))))
     // Note: The case Event(Queue(msg), t @ Data(Some(_), _, _, Seq(_*))) should never happen here.
   }
@@ -109,10 +110,11 @@ class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingF
   when(Active) {
     // Set the rate
     case Event(SetRate(rate), d) =>
+      this.rate = rate
       // Note: this should be improved (see "Known issues" in class comments)
       stopTimer()
       startTimer(rate)
-      stay using d.copy(rate = rate, callsLeftInThisPeriod = rate.numberOfCalls)
+      stay using d.copy(callsLeftInThisPeriod = rate.numberOfCalls)
 
     // Set the target (when the new target is None)
     case Event(SetTarget(None), d) =>
@@ -123,24 +125,24 @@ class TimerBasedThrottler(rate: Rate) extends Actor with Throttler with LoggingF
       stay using d.copy(target = t)
 
     // Queue a message (when we cannot send messages in the current period anymore)
-    case Event(Queue(msg), d @ Data(_, _, 0, queue)) =>
+    case Event(Queue(msg), d @ Data(_, 0, queue)) =>
       stay using d.copy(queue = queue.enqueue(Message(msg, context.sender)))
 
     // Queue a message (when we can send some more messages in the current period)
-    case Event(Queue(msg), d @ Data(_, _, callsLeftInThisPeriod, queue)) =>
+    case Event(Queue(msg), d @ Data(_, callsLeftInThisPeriod, queue)) =>
       stay using deliverMessages(d.copy(queue = queue.enqueue(Message(msg, context.sender))))
 
     // Period ends and we have no more messages
-    case Event(Tick, d @ Data(_, rate, _, Seq())) =>
+    case Event(Tick, d @ Data(_, _, Seq())) =>
       goto(Idle)
 
     // Period ends and we get more occasions to send messages
-    case Event(Tick, d @ Data(_, rate, _, _)) =>
+    case Event(Tick, d @ Data(_, _, _)) =>
       stay using deliverMessages(d.copy(callsLeftInThisPeriod = rate.numberOfCalls))
   }
 
   onTransition {
-    case Idle -> Active => startTimer(nextStateData.rate)
+    case Idle -> Active => startTimer(rate)
     case Active -> Idle => stopTimer()
   }
 
