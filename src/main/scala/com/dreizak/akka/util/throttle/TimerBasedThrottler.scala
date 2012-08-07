@@ -146,6 +146,8 @@ class TimerBasedThrottler(var rate: Rate) extends Actor with Throttler with Logg
     case Active -> Idle => stopTimer()
   }
 
+  initialize
+
   private def startTimer(rate: Rate) = setTimer("morePermits", Tick, rate.duration, true)
   private def stopTimer() = cancelTimer("morePermits")
 
