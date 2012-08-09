@@ -53,7 +53,7 @@ The packages are published to the Maven repository [http://hbf.github.com/akka-t
     
     libraryDependencies ++= Seq(
       // ...
-      "akka-throttler" %% "com.dreizak.akka" % "1.0-SNAPSHOT" withSources
+      "com.dreizak.akka"  %% "akka-throttler"   % "1.0-SNAPSHOT" withSources
     )
 ```
 
