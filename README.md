@@ -53,7 +53,7 @@ The packages are published to the Maven repository [http://hbf.github.com/akka-t
     
     libraryDependencies ++= Seq(
       // ...
-      "com.dreizak.akka"  %% "akka-throttler"   % "1.0-SNAPSHOT" withSources
+      "akka.pattern.throttle"  %% "akka-throttler"   % "1.0-SNAPSHOT" withSources
     )
 ```
 
@@ -73,7 +73,7 @@ For Maven, add the following to your `pom.xml`:
 		<!-- ... -->
 		<dependency>
 			<groupId>akka-throttler</groupId>
-			<artifactId>com.dreizak.akka_SCALAVERSION</artifactId>
+			<artifactId>akka.pattern.throttle_SCALAVERSION</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
