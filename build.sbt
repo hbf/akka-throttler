@@ -11,8 +11,8 @@ resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/release
 crossScalaVersions := Seq("2.9.2", "2.9.1")
  
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" % "akka-actor"        % "2.0.2" withSources,
-  "com.typesafe.akka" % "akka-testkit"      % "2.0.2" % "test" withSources,
+  "com.typesafe.akka" % "akka-actor"        % "2.0.3" withSources,
+  "com.typesafe.akka" % "akka-testkit"      % "2.0.3" % "test" withSources,
   "junit"             % "junit"             % "4.5"   % "test" withSources,
   "org.scalatest"     %% "scalatest"        % "1.6.1" % "test" withSources,
   "com.ning"          % "async-http-client" % "1.7.4" withSources
