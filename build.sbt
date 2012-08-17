@@ -1,6 +1,6 @@
 name := "akka-throttler"
  
-organization := "com.dreizak.akka"
+organization := "akka.pattern.throttle"
 
 version := "1.0-SNAPSHOT"
  
