@@ -1,6 +1,12 @@
 A throttler for Akka 2.0
 ========================
 
+NOTICE!
+-------
+
+THIS PROJECT WILL BE PART OF Akka 2.1 AND IS NO LONGER UNDER ACTIVE DEVELOPMENT HERE. VISIT THE [Experimental Modules][9] SECTION IN THE [Akka Documentation][10].
+
+
 What is this about?
 --------------------
 
@@ -94,3 +100,5 @@ All of the code in this project is available under the [Creative Commons – Att
   [6]: https://github.com/hbf/akka-throttler/blob/master/src/test/scala/akka/pattern/throttle/TimerBasedThrottlerSpec.scala
   [7]: http://hbf.github.com/akka-throttler/doc/api/#akka.pattern.throttle.Throttler
   [8]: http://hbf.github.com/akka-throttler/maven-repo
+  [9]: http://doc.akka.io/docs/akka/snapshot/experimental/index.html
+  [10]: http://akka.io/docs/
