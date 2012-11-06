@@ -1,10 +1,10 @@
-A throttler for Akka 2.0
-========================
-
 NOTICE!
 -------
 
-THIS PROJECT WILL BE PART OF Akka 2.1 AND IS NO LONGER UNDER ACTIVE DEVELOPMENT HERE. VISIT THE [Experimental Modules][9] SECTION IN THE [Akka Documentation][10].
+This code from this project will be included into [Akka 2.1][11] and will no longer be maintained here. Visit the [Experimental Modules][9] section in the [Akka Documentation][10] for the latest version.
+
+A throttler for Akka 2.0
+========================
 
 
 What is this about?
@@ -102,3 +102,4 @@ All of the code in this project is available under the [Creative Commons – Att
   [8]: http://hbf.github.com/akka-throttler/maven-repo
   [9]: http://doc.akka.io/docs/akka/snapshot/experimental/index.html
   [10]: http://akka.io/docs/
+  [11]: http://akka.io
