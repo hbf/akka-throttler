@@ -1,7 +1,7 @@
 NOTICE!
 -------
 
-This code from this project will be included into [Akka 2.1][11] and will no longer be maintained here. Visit the [Experimental Modules][9] section in the [Akka Documentation][10] for the latest version.
+The code from this project will be included into [Akka 2.1][11] and will no longer be maintained here. Visit the [Experimental Modules][9] section in the [Akka Documentation][10] for the latest version.
 
 A throttler for Akka 2.0
 ========================
