@@ -90,7 +90,9 @@ Here, `SCALAVERSION` should be `2.9.1` or `2.9.2`.
 
 License
 -------
-All of the code in this project is available under the [Creative Commons – Attribution 3.0 Unported (CC BY 3.0)][5] license.
+The code is available under the [Apache 2 License](http://www.apache.org/licenses/LICENSE-2.0.html), which is explained [here](http://www.tldrlegal.com/license/apache-license-2.0-(apache-2.0).
+
+If you use the code in your project/product, please drop us a note – we are always interested in learning about new applications!
 
   [1]: http://akka.io/
   [2]: http://hbf.github.com/akka-throttler/doc/api/#akka.pattern.throttle.TimerBasedThrottler
